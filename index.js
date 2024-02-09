@@ -20,6 +20,15 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html")
 })
 
+app.get("/api", (req, res) => {
+  const date = new Date()
+
+  const unix = date.getTime()
+  const utc = date.toUTCString()
+
+  res.json({ unix, utc })
+})
+
 app.get("/api/:date", (req, res) => {
   let date
   let param = req.params.date
@@ -28,26 +37,17 @@ app.get("/api/:date", (req, res) => {
 
   // Handle numeric date (unix timestamp)
   if (!!Number(param)) {
-    console.log("param is numeric", Number(param))
+    // console.log("param is numeric", Number(param))
     param = Number(param)
   }
 
-  if (param) {
-    // Handle empty date string
-    date = new Date(param)
-  } else {
-    date = new Date()
-  }
-
-  // console.log("date: ", date)
+  date = new Date(param)
 
   // Handle invalid date
   if (date.toString() === "Invalid Date") {
     res.json({ error: "Invalid Date" })
     return
   }
-
-  // console.log("date: ", JSON.parse(JSON.stringify(date)))
 
   const unix = date.getTime()
   const utc = date.toUTCString()
