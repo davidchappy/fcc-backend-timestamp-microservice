@@ -27,8 +27,8 @@ app.get("/api/:date", (req, res) => {
   // console.log({ param })
 
   // Handle numeric date (unix timestamp)
-  if (Number(param) !== "NaN") {
-    // console.log("param is numeric", Number(param))
+  if (!!Number(param)) {
+    console.log("param is numeric", Number(param))
     param = Number(param)
   }
 
